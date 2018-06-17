@@ -1,0 +1,96 @@
+#:import main kivy
+
+ScreenManagement:
+    UserInfoScreen:
+    MainScreen:
+
+
+<UserInfoScreen>:
+    canvas.before:
+        Color:
+            rgb: 0, 128, 255
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        cols: 1
+        rows: 1
+
+        TextInput:
+            id: username
+            text: "Enter username here: "
+            multiline: False
+            on_text_validate: root.input_username(username); root.manager.current = 'main'
+
+
+<MainScreen>:
+    canvas.before:
+        Color:
+            rgb: 0, 128, 255
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    name: 'main'
+    GridLayout:
+        cols: 2
+        rows: 1
+        padding: 10
+        spacing: 5
+
+        GridLayout:
+            id: layout
+            cols: 2
+            rows: 3
+            padding: 10
+            spacing: 5
+
+
+            Label:
+                text: "Jam Sesh"
+                font_size: 36
+                size_hint: (0.2, None)
+                height: 20
+
+            Label:
+                text: "Welcome!"
+                size_hint: (0.2, None)
+                height: 20
+
+            AsyncImage:
+                id: piano
+                source: 'https://cdn.pixabay.com/photo/2018/01/05/01/52/piano-3061964_960_720.jpg'
+
+            AsyncImage:
+                id: guitar
+                source: 'http://images.all-free-download.com/images/graphiclarge/acoustic_guitar_184808.jpg'
+
+            AsyncImage:
+                id: bass
+                source: 'https://medias.audiofanzine.com/images/normal/epiphone-les-paul-special-bass-751621.jpg'
+
+            AsyncImage:
+                id: drums
+                source: 'http://images.clipartpanda.com/drum-clip-art-drum-clip-art-6.gif'
+
+        GridLayout:
+            id: chatroom_layout
+            cols: 1
+            rows: 2
+            padding: 10
+            spacing: 5
+
+            Label:
+                id: chatroom
+                text: "Chatroom"
+                size_hint_x: None
+
+            TextInput:
+                id: msg_input
+                text: "Enter message here: "
+                size_hint: (0.5, None)
+                height: 100
+                font_size: 16
+                multiline: False
+                on_text_validate:
+
