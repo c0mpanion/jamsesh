@@ -27,7 +27,6 @@ def accept_client():
 """
 Sends message from client to all other clients in the chat EXCEPT for the client
 that sent it
-TODO: Error, client that sent it receives its own message, fix this!
 """
 
 
