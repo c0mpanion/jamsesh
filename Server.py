@@ -2,7 +2,6 @@ from socket import *
 import threading
 import pickle
 
-
 """
 Accepts a connection to a client and saves their information;
 starts a send message thread
@@ -17,9 +16,12 @@ def accept_client():
         sockets.append((client_socket, address))
         print(str(address) + " connected to the chat")
 
-        # Start thread that allows client to send messages
-        thread_client = threading.Thread(target=send_messages, args=[client_socket])
-        thread_client.start()
+        try:
+            # Start thread that allows client to send messages
+            thread_client = threading.Thread(target=send_messages, args=[client_socket, address])
+            thread_client.start()
+        except EOFError:
+            client_socket.close()
 
 
 """
@@ -29,31 +31,32 @@ TODO: Error, client that sent it receives its own message, fix this!
 """
 
 
-def send_messages(client_socket):
+def send_messages(client_socket, address):
     while True:
-        try:
-            """
-            If we've received data from a client, check the client list and
-            send to all clients in the list except for the one who sent it
-            """
-            data = client_socket.recv(1024)
-            received_data = pickle.loads(data)
+        """
+        If we've received data from a client, check the client list and
+        send to all clients in the list except for the one who sent it
+        """
+        content = client_socket.recv(1024)
 
+        if not content:
+            break
+        else:
+
+            content = pickle.loads(content)
             # Prints the message to server console
-            print(str(received_data[0]) + " said '" + str(received_data[1]) + "'")
+            print(str(content[0]) + " said '" + str(content[1]) + "'")
 
             # Sends message to everyone except the client who sent it initially
-            if data:
-                for client in sockets:
-                    if client != client_socket:
-                        client[0].send(data)
+            for (client, address) in sockets:
+                if client != client_socket:
+                    content = pickle.dumps(content)
+                    client.send(content)
 
-            """
-            If there's no data, print the data as an exception
-            """
-        except Exception as n:
-            print(n.data)
-            break
+    print(str(address) + " exited the chat.")
+    client_socket.close()
+
+
 
 
 """
