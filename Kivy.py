@@ -8,18 +8,10 @@ from kivy.properties import StringProperty
 
 kivy.require('1.10.0')
 
-class UserInfoScreen(Screen):
-    def input_username(self, text):
-        if not text:
-            popup = Popup(title='Error: no username', content=Label(text='Please enter a username'),
-                  size=(200, 200))
-            popup.open()
-        else:
-            text = StringProperty()
-
 class MainScreen(Screen):
-    def send_message(self):
-        pass
+    def send_username(self):
+        self.ids.chatroom.text = "Username was sent"
+        self.ids.chatroom.text = "Username is " + self.ids.msg_input.text
 
     def send_audio(self):
         pass

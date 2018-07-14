@@ -41,16 +41,15 @@ def send_messages(client_socket, address):
         if not content:
             break
         else:
+            # Sends message to everyone except the client who sent it initially
+            for (client, address) in sockets:
+                if client != client_socket:
+                    client.send(content)
 
             content = pickle.loads(content)
             # Prints the message to server console
             print(str(content[0]) + " said '" + str(content[1]) + "'")
 
-            # Sends message to everyone except the client who sent it initially
-            for (client, address) in sockets:
-                if client != client_socket:
-                    content = pickle.dumps(content)
-                    client.send(content)
 
     print(str(address) + " exited the chat.")
     client_socket.close()

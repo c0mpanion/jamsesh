@@ -1,26 +1,7 @@
 #:import main kivy
 
 ScreenManagement:
-    UserInfoScreen:
     MainScreen:
-
-
-<UserInfoScreen>:
-    canvas.before:
-        Color:
-            rgb: 0, 128, 255
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    GridLayout:
-        cols: 1
-        rows: 1
-
-        TextInput:
-            id: username
-            text: "Enter username here: "
-            multiline: False
-            on_text_validate: root.input_username(username); root.manager.current = 'main'
 
 
 <MainScreen>:
@@ -83,14 +64,25 @@ ScreenManagement:
             Label:
                 id: chatroom
                 text: "Chatroom"
-                size_hint_x: None
+                multiline: True
+                color: 0, 0, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                    BorderImage:
+                        border: (0, 18, 0, 18)
+
+
 
             TextInput:
                 id: msg_input
-                text: "Enter message here: "
+                hint_text: "Enter message here:"
                 size_hint: (0.5, None)
                 height: 100
                 font_size: 16
                 multiline: False
-                on_text_validate:
+                on_text_validate: root.send_username(); msg_input.text = " ";
 
