@@ -1,10 +1,56 @@
 #:import main kivy
 
 ScreenManagement:
+    UserInfoScreen:
     MainScreen:
 
 
+<UserInfoScreen>:
+    name: "UserInfoScreen"
+    canvas.before:
+        Color:
+            rgb: 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        cols: 2
+        rows: 2
+
+        GridLayout:
+            cols: 1
+            rows: 2
+
+            Label:
+                text: "Welcome to Jam Sesh! What is your username?"
+            TextInput:
+                id: username
+                hint_text: "Enter username here: "
+                multiline: False
+
+        GridLayout:
+            cols: 1
+            rows: 6
+            Label:
+                text: "Are you an audience member or a player?"
+            CheckBox:
+                group: "player_type"
+                value: root.manager.audience_member
+
+            Label:
+                text: "Audience member"
+            CheckBox:
+                group: "player_type"
+                value: root.manager.player
+            Label:
+                text: "Player"
+            Button:
+                text: "Continue"
+                on_press: root.manager.username = username.text; root.manager.current = "main"
+
+
 <MainScreen>:
+    name: "main"
     canvas.before:
         Color:
             rgb: 0, 128, 255
@@ -34,7 +80,7 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome!"
+                text: "Welcome " + root.manager.username + "!"
                 size_hint: (0.2, None)
                 height: 20
 
@@ -63,7 +109,7 @@ ScreenManagement:
 
             Label:
                 id: chatroom
-                text: "Chatroom"
+                text: "Connecting to the chat..."
                 multiline: True
                 color: 0, 0, 0, 1
                 canvas.before:
@@ -72,10 +118,6 @@ ScreenManagement:
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                    BorderImage:
-                        border: (0, 18, 0, 18)
-
-
 
             TextInput:
                 id: msg_input
@@ -84,5 +126,5 @@ ScreenManagement:
                 height: 100
                 font_size: 16
                 multiline: False
-                on_text_validate: root.send_username(); msg_input.text = " ";
+                on_text_validate: msg_input.text = " ";
 
