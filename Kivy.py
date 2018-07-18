@@ -12,9 +12,10 @@ import pickle
 kivy.require('1.10.0')
 global username
 global s
+global u
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+u = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 
 class UserInfoScreen(Screen):
@@ -27,13 +28,11 @@ class MainScreen(Screen):
 
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
-        #self.messages = self.ids["messages"]
 
     def on_enter(self):
         s.connect(('localhost', 9000))
         self.ids.chatroom.text = "You are connected to the chat! \n"
         threading.Thread(target=self.handle_messages).start()
-
 
     def send_message(self, message_to_send):
         try:
@@ -68,9 +67,22 @@ class MainScreen(Screen):
             except Exception as e:
                 print(e)
 
+    def send_audio(self, number, note):
+        if number == 0:
+            MainScreen.send_piano(self, note)
+        elif number == 1:
+            MainScreen.send_bass(self, note)
+        elif number == 2:
+            MainScreen.send_guitar(self, note)
 
-    def send_audio(self):
-        pass
+    def send_piano(self, note):
+        u.sendto("piano", ('localhost', 9001))
+
+    def send_bass(self, note):
+        u.sendto("piano", ('localhost', 9001))
+
+    def send_guitar(self, note):
+        u.sendto("guitar", ('localhost', 9001))
 
 class ScreenManagement(ScreenManager):
     username = StringProperty("")
