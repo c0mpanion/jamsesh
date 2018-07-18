@@ -107,17 +107,26 @@ ScreenManagement:
             padding: 10
             spacing: 5
 
-            Label:
-                id: chatroom
-                text: "Connecting to the chat..."
-                multiline: True
-                color: 0, 0, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 1, 1, 1, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+            ScrollView:
+                Label:
+                    id: chatroom
+                    text: "Connecting to the chat..."
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    halight: 'left'
+                    valight: 'top'
+                    text_size: self.width, None
+
+
+
+                    multiline: True
+                    color: 0, 0, 0, 1
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
 
             TextInput:
                 id: msg_input
@@ -126,5 +135,4 @@ ScreenManagement:
                 height: 100
                 font_size: 16
                 multiline: False
-                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = " "
-
+                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
