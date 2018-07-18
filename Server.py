@@ -50,11 +50,20 @@ def send_messages(client_socket, address):
             # Prints the message to server console
             print(str(content[0]) + " said '" + str(content[1]) + "'")
 
-
     print(str(address) + " exited the chat.")
     client_socket.close()
 
 
+def accept_audio(udp, sockets):
+    while True:
+        data, addr = udp.recvfrom(1024)
+        if data:
+            for (client, address) in sockets:
+                if addr != address:
+                    try:
+                        udp.sendto(data, address)
+                    except Exception as e:
+                        print("Error sending: ", e)
 
 
 """
@@ -73,11 +82,15 @@ if __name__ == '__main__':
     server_socket.listen(10)
     print('Server started on port 9000')
 
+    instruments = socket(AF_INET, SOCK_DGRAM)
+    instruments.bind('localhost', 9001)
+
     # Start thread that accepts new clients
     c_thread = threading.Thread(target=accept_client)
     c_thread.start()
 
-
+    inst_thread = threading.Thread(target=accept_audio, args=[instruments, sockets])
+    inst_thread.start()
 
 
 
