@@ -126,5 +126,5 @@ ScreenManagement:
                 height: 100
                 font_size: 16
                 multiline: False
-                on_text_validate: msg_input.text = " ";
+                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = " "
 
