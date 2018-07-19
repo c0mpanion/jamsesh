@@ -18,16 +18,35 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 u = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 
-class UserInfoScreen(Screen):
-    pass
+class UserInfoScreen1(Screen):
 
-class MainScreen(Screen):
+    def decide_player_or_audience(self, value, value2):
+        print ("Player: " + str(value))
+        print ("Audience: " + str(value2))
+        if value == True:
+            return "UserInfoScreen2"
+        else:
+            return "MainScreenAudience"
 
+    player = ObjectProperty(True)
+    audience_member = ObjectProperty(False)
+
+
+class UserInfoScreen2(Screen):
+    def decide_instrument(self, value, value2, value3):
+        if value == True:
+            return "PianoScreen"
+        elif value2 == True:
+            return "GuitarScreen"
+        elif value3 == True:
+            return "BassScreen"
+
+class PianoScreen(Screen):
     global s
     username = ""
 
     def __init__(self, **kwargs):
-        super(MainScreen, self).__init__(**kwargs)
+        super(PianoScreen, self).__init__(**kwargs)
 
     def on_enter(self):
         s.connect(('localhost', 9000))
@@ -38,19 +57,13 @@ class MainScreen(Screen):
         try:
             temp = message_to_send.split(" ")
             username = temp[0]
-
             msg_without_username = temp[1:]
-
             print(msg_without_username)
-
             message_to_send_text = " ".join(msg_without_username)
-
             print(message_to_send_text)
-
             user_and_message = [username, message_to_send_text]
 
             total_data = pickle.dumps(user_and_message)
-
             s.sendto(total_data, ('localhost', 9000))
             self.ids.chatroom.text += '\n' + username + " > " + message_to_send_text
 
@@ -67,28 +80,54 @@ class MainScreen(Screen):
             except Exception as e:
                 print(e)
 
-    def send_audio(self, number, note):
-        if number == 0:
-            MainScreen.send_piano(self, note)
-        elif number == 1:
-            MainScreen.send_bass(self, note)
-        elif number == 2:
-            MainScreen.send_guitar(self, note)
+    def send_audio(self, note):
+        pass
 
-    def send_piano(self, note):
-        u.sendto("piano", ('localhost', 9001))
+class MainScreenAudience(Screen):
 
-    def send_bass(self, note):
-        u.sendto("piano", ('localhost', 9001))
+    global s
+    username = ""
 
-    def send_guitar(self, note):
-        u.sendto("guitar", ('localhost', 9001))
+    def __init__(self, **kwargs):
+        super(MainScreenAudience, self).__init__(**kwargs)
+
+    def on_enter(self):
+        s.connect(('localhost', 9000))
+        self.ids.chatroom.text = "You are connected to the chat! \n"
+        threading.Thread(target=self.handle_messages).start()
+
+    def send_message(self, message_to_send):
+        try:
+            temp = message_to_send.split(" ")
+            username = temp[0]
+            msg_without_username = temp[1:]
+            print(msg_without_username)
+            message_to_send_text = " ".join(msg_without_username)
+            print(message_to_send_text)
+            user_and_message = [username, message_to_send_text]
+
+            total_data = pickle.dumps(user_and_message)
+            s.sendto(total_data, ('localhost', 9000))
+            self.ids.chatroom.text += '\n' + username + " > " + message_to_send_text
+
+        except Exception as e:
+            print("Error sending: ", e)
+
+
+    def handle_messages(self):
+        while True:
+            try:
+                data = s.recv(1024)
+                data_list = pickle.loads(data)
+                self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
+            except Exception as e:
+                print(e)
 
 class ScreenManagement(ScreenManager):
     username = StringProperty("")
     audience_member = ObjectProperty(True)
     player = ObjectProperty(False)
-
+    instrument = StringProperty("")
 
 
 sm = Builder.load_file("JamSesh.kv")

@@ -1,12 +1,14 @@
 #:import main kivy
 
 ScreenManagement:
-    UserInfoScreen:
-    MainScreen:
+    UserInfoScreen1:
+    UserInfoScreen2:
+    MainScreenAudience:
+    PianoScreen:
 
 
-<UserInfoScreen>:
-    name: "UserInfoScreen"
+<UserInfoScreen1>:
+    name: "UserInfoScreen1"
     canvas.before:
         Color:
             rgb: 0, 0, 1
@@ -35,22 +37,62 @@ ScreenManagement:
                 text: "Are you an audience member or a player?"
             CheckBox:
                 group: "player_type"
-                value: root.manager.audience_member
+                id: audience_member
+                value: root.audience_member
 
             Label:
                 text: "Audience member"
             CheckBox:
                 group: "player_type"
-                value: root.manager.player
+                id: player
+                value: root.player
             Label:
                 text: "Player"
             Button:
                 text: "Continue"
-                on_press: root.manager.username = username.text; root.manager.current = "main"
+                on_press: root.manager.username = username.text; root.manager.current = root.decide_player_or_audience(player.active, audience_member.active)
+
+<UserInfoScreen2>:
+    name: "UserInfoScreen2"
+    canvas.before:
+        Color:
+            rgb: 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        cols: 1
+        rows: 2
+        Label:
+            text: "Pick an instrument"
+        GridLayout:
+            cols: 2
+            rows: 4
+            Label:
+                text: "Piano"
+            CheckBox:
+                group: "instrument_type"
+                id: piano
+
+            Label:
+                text: "Guitar"
+            CheckBox:
+                group: "instrument_type"
+                id: guitar
+
+            Label:
+                text: "Bass"
+            CheckBox:
+                group: "instrument_type"
+                id: bass
+
+            Button:
+                text: "Continue"
+                on_press: root.manager.current = root.decide_instrument(piano.active, guitar.active, bass.active) ;
 
 
-<MainScreen>:
-    name: "main"
+<MainScreenAudience>:
+    name: "MainScreenAudience"
     canvas.before:
         Color:
             rgb: 0, 128, 255
@@ -58,7 +100,81 @@ ScreenManagement:
             pos: self.pos
             size: self.size
 
-    name: 'main'
+    GridLayout:
+        cols: 2
+        rows: 1
+        padding: 10
+        spacing: 5
+
+        GridLayout:
+            id: layout
+            cols: 1
+            rows: 3
+            padding: 10
+            spacing: 5
+
+
+            Label:
+                text: "Jam Sesh"
+                font_size: 36
+                size_hint: (0.2, None)
+                height: 20
+
+            Label:
+                text: "Welcome " + root.manager.username + "!"
+                size_hint: (0.2, None)
+                height: 20
+
+            Label:
+                text: "You are an audience member."
+                size_hint_y: None
+                text_size: self.width, None
+
+        GridLayout:
+            id: chatroom_layout
+            cols: 1
+            rows: 2
+            padding: 10
+            spacing: 5
+
+            ScrollView:
+                Label:
+                    id: chatroom
+                    text: "Connecting to the chat..."
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    halight: 'left'
+                    valight: 'top'
+                    text_size: self.width, None
+
+
+
+                    multiline: True
+                    color: 0, 0, 0, 1
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+            TextInput:
+                id: msg_input
+                hint_text: "Enter message here:"
+                size_hint: (0.5, None)
+                height: 100
+                font_size: 16
+                multiline: False
+                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
+
+<PianoScreen>:
+    name: "PianoScreen"
+    canvas.before:
+        Color:
+            rgb: 0, 128, 255
+        Rectangle:
+            pos: self.pos
+            size: self.size
     GridLayout:
         cols: 2
         rows: 1

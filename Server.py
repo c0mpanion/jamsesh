@@ -6,7 +6,8 @@ import pickle
 Accepts a connection to a client and saves their information;
 starts a send message thread
 """
-
+global instruments
+instruments = socket(AF_INET, SOCK_DGRAM)
 
 def accept_client():
     # Infinite thread, always accepting clients (up to 10)
@@ -22,6 +23,7 @@ def accept_client():
             thread_client.start()
         except EOFError:
             client_socket.close()
+            sockets.remove((client_socket, address))
 
 
 """
@@ -52,6 +54,7 @@ def send_messages(client_socket, address):
 
     print(str(address) + " exited the chat.")
     client_socket.close()
+    sockets.remove((client_socket, address))
 
 
 def accept_audio(udp, sockets):
@@ -82,8 +85,7 @@ if __name__ == '__main__':
     server_socket.listen(10)
     print('Server started on port 9000')
 
-    instruments = socket(AF_INET, SOCK_DGRAM)
-    instruments.bind('localhost', 9001)
+    instruments.bind(('localhost', 9001))
 
     # Start thread that accepts new clients
     c_thread = threading.Thread(target=accept_client)
@@ -91,6 +93,4 @@ if __name__ == '__main__':
 
     inst_thread = threading.Thread(target=accept_audio, args=[instruments, sockets])
     inst_thread.start()
-
-
 
