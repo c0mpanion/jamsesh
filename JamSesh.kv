@@ -204,7 +204,7 @@ ScreenManagement:
 
             GridLayout:
                 id: piano_layout
-                cols: 12
+                cols: 13
                 rows: 2
 
                 Button:
@@ -228,6 +228,11 @@ ScreenManagement:
 
                 Button:
                     background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "F#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("F#")
 
                 Button:
                     background_color: 0, 0, 0, 0
@@ -281,6 +286,9 @@ ScreenManagement:
                     on_press: root.send_note('F')
 
                 Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
                     text: "G"
                     color: 0, 0, 0, 1
                     background_color: (255, 255, 255, 1)
@@ -297,6 +305,12 @@ ScreenManagement:
 
                 Button:
                     background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "B"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('B')
 
                 Button:
                     text: "C"

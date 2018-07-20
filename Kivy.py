@@ -6,6 +6,7 @@ from kivy.properties import StringProperty
 from kivy.properties import ObjectProperty
 import socket, threading
 import pickle
+from kivy.core.audio import SoundLoader
 import os
 
 
@@ -82,28 +83,68 @@ class PianoScreen(Screen):
 
     def send_note(self, note):
         if note == 'C':
+            sound = SoundLoader.load('Piano_Sounds/C.wav')
+            sound.play()
             print ("C was pressed")
+
         elif note == "C#":
+            sound = SoundLoader.load('Piano_Sounds/C#.wav')
+            sound.play()
             print("C# was pressed")
+
         elif note == 'D':
+            sound = SoundLoader.load('Piano_Sounds/D.wav')
+            sound.play()
             print("D was pressed")
+
         elif note == 'D#':
+            sound = SoundLoader.load('Piano_Sounds/D#.wav')
+            sound.play()
             print("D# was pressed")
+
         elif note == 'E':
+            sound = SoundLoader.load('Piano_Sounds/E.wav')
+            sound.play()
             print("E was pressed")
+
         elif note == 'F':
+            sound = SoundLoader.load('Piano_Sounds/F.wav')
+            sound.play()
             print("F was pressed")
+
         elif note == "F#":
+            sound = SoundLoader.load('Piano_Sounds/F#.wav')
+            sound.play()
             print("F# was pressed")
+
         elif note == 'G':
+            sound = SoundLoader.load('Piano_Sounds/G.wav')
+            sound.play()
             print("G was pressed")
+
         elif note == 'G#':
+            sound = SoundLoader.load('Piano_Sounds/G#.wav')
+            sound.play()
             print("G# was pressed")
+
         elif note == 'A':
+            sound = SoundLoader.load('Piano_Sounds/A.wav')
+            sound.play()
             print("A was pressed")
+
         elif note == 'A#':
+            sound = SoundLoader.load('Piano_Sounds/A#.wav')
+            sound.play()
             print("A# was pressed")
+
+        elif note == 'B':
+            sound = SoundLoader.load('Piano_Sounds/B.wav')
+            sound.play()
+            print("B was pressed")
+
         else:
+            sound = SoundLoader.load('Piano_Sounds/C+.wav')
+            sound.play()
             print("C+ was pressed")
 
 
