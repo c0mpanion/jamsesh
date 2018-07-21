@@ -82,72 +82,61 @@ class PianoScreen(Screen):
                 print(e)
 
     def send_note(self, note):
+
         if note == 'C':
-            sound = SoundLoader.load('Piano_Sounds/C.wav')
-            sound.play()
-            print ("C was pressed")
+            path = "Piano_Sounds/C.wav"
+            print("C was pressed")
 
         elif note == "C#":
-            sound = SoundLoader.load('Piano_Sounds/C#.wav')
-            sound.play()
+            path = "Piano_Sounds/C#.wav"
             print("C# was pressed")
 
         elif note == 'D':
-            sound = SoundLoader.load('Piano_Sounds/D.wav')
-            sound.play()
+            path = "Piano_Sounds/D.wav"
             print("D was pressed")
 
         elif note == 'D#':
-            sound = SoundLoader.load('Piano_Sounds/D#.wav')
-            sound.play()
+            path = "Piano_Sounds/D#.wav"
             print("D# was pressed")
 
         elif note == 'E':
-            sound = SoundLoader.load('Piano_Sounds/E.wav')
-            sound.play()
+            path = "Piano_Sounds/E.wav"
             print("E was pressed")
 
         elif note == 'F':
-            sound = SoundLoader.load('Piano_Sounds/F.wav')
-            sound.play()
+            path = "Piano_Sounds/F.wav"
             print("F was pressed")
 
         elif note == "F#":
-            sound = SoundLoader.load('Piano_Sounds/F#.wav')
-            sound.play()
+            path = "Piano_Sounds/F#.wav"
             print("F# was pressed")
 
         elif note == 'G':
-            sound = SoundLoader.load('Piano_Sounds/G.wav')
-            sound.play()
+            path = "Piano_Sounds/G.wav"
             print("G was pressed")
 
         elif note == 'G#':
-            sound = SoundLoader.load('Piano_Sounds/G#.wav')
-            sound.play()
+            path = "Piano_Sounds/G#.wav"
             print("G# was pressed")
 
         elif note == 'A':
-            sound = SoundLoader.load('Piano_Sounds/A.wav')
-            sound.play()
+            path = "Piano_Sounds/A.wav"
             print("A was pressed")
 
         elif note == 'A#':
-            sound = SoundLoader.load('Piano_Sounds/A#.wav')
-            sound.play()
+            path = "Piano_Sounds/A#.wav"
             print("A# was pressed")
 
         elif note == 'B':
-            sound = SoundLoader.load('Piano_Sounds/B.wav')
-            sound.play()
+            path = "Piano_Sounds/B.wav"
             print("B was pressed")
 
         else:
-            sound = SoundLoader.load('Piano_Sounds/C+.wav')
-            sound.play()
+            path = "Piano_Sounds/C+.wav"
             print("C+ was pressed")
 
-
+        sound = SoundLoader.load(path)
+        sound.play()
 
 
 class BassScreen(Screen):
