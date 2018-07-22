@@ -80,58 +80,14 @@ class PianoScreen(Screen):
                 print(e)
 
     def send_note(self, note):
-        if note == 'C':
-            path = "Piano_Sounds/C.wav"
-            print("C was pressed")
+        notes = {"C": "Piano_Sounds/C.wav", "C#": "Piano_Sounds/C#.wav", "C+": "Piano_Sounds/C+.wav",
+                 "D": "Piano_Sounds/D.wav", "D#": "Piano_Sounds/D#.wav",
+                 "E": "Piano_Sounds/E.wav", "F": "Piano_Sounds/F.wav", "F#": "Piano_Sounds/F#.wav",
+                 "G": "Piano_Sounds/G.wav", "G#": "Piano_Sounds/G#.wav",
+                 "A": "Piano_Sounds/A.wav", "A#": "Piano_Sounds/A#.wav",
+                 "B": "Piano_Sounds/B.wav", "B#": "Piano_Sounds/B#.wav"}
 
-        elif note == "C#":
-            path = "Piano_Sounds/C#.wav"
-            print("C# was pressed")
-
-        elif note == 'D':
-            path = "Piano_Sounds/D.wav"
-            print("D was pressed")
-
-        elif note == 'D#':
-            path = "Piano_Sounds/D#.wav"
-            print("D# was pressed")
-
-        elif note == 'E':
-            path = "Piano_Sounds/E.wav"
-            print("E was pressed")
-
-        elif note == 'F':
-            path = "Piano_Sounds/F.wav"
-            print("F was pressed")
-
-        elif note == "F#":
-            path = "Piano_Sounds/F#.wav"
-            print("F# was pressed")
-
-        elif note == 'G':
-            path = "Piano_Sounds/G.wav"
-            print("G was pressed")
-
-        elif note == 'G#':
-            path = "Piano_Sounds/G#.wav"
-            print("G# was pressed")
-
-        elif note == 'A':
-            path = "Piano_Sounds/A.wav"
-            print("A was pressed")
-
-        elif note == 'A#':
-            path = "Piano_Sounds/A#.wav"
-            print("A# was pressed")
-
-        elif note == 'B':
-            path = "Piano_Sounds/B.wav"
-            print("B was pressed")
-
-        else:
-            path = "Piano_Sounds/C+.wav"
-            print("C+ was pressed")
-
+        path = notes[note]
         sound = SoundLoader.load(path)
         sound.play()
         u.sendto(path.encode('utf-8'), ('localhost', 9001))
@@ -142,9 +98,8 @@ class PianoScreen(Screen):
             data = data.decode("utf-8")
             print("Received audio: " + data)
             sound = SoundLoader.load(data)
-            time.sleep(1)
+            time.sleep(0.2)
             sound.play()
-
 
 
 class BassScreen(Screen):
@@ -176,10 +131,40 @@ class BassScreen(Screen):
         except Exception as e:
             print("Error sending: ", e)
 
+    def handle_messages(self):
+        while True:
+            try:
+                data = s.recv(1024)
+                data_list = pickle.loads(data)
+                self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
+            except Exception as e:
+                print(e)
+
+    def send_note(self, note):
+        notes={"C": "Bass_Sounds/C.wav", "C#": "Bass_Sounds/C#.wav", "C+": "Bass_Sounds/C+.wav",
+               "D": "Bass_Sounds/D.wav", "D#": "Bass_Sounds/D#.wav",
+               "E": "Bass_Sounds/E.wav", "F": "Bass_Sounds/F.wav", "F#": "Bass_Sounds/F#.wav",
+               "G": "Bass_Sounds/G.wav", "G#": "Bass_Sounds/G#.wav",
+               "A": "Bass_Sounds/A.wav", "A#": "Bass_Sounds/A#.wav",
+               "B": "Bass_Sounds/B.wav", "B#": "Bass_Sounds/B#.wav"}
+
+        path = notes[note]
+        sound = SoundLoader.load(path)
+        sound.play()
+        u.sendto(path.encode('utf-8'), ('localhost', 9001))
+
+    def receive_audio(self):
+        while True:
+            data, addr = u.recvfrom(1024)
+            data = data.decode("utf-8")
+            print("Received audio: " + data)
+            sound = SoundLoader.load(data)
+            time.sleep(0.2)
+            sound.play()
+
 class GuitarScreen(Screen):
     global s
     username = ""
-
     def __init__(self, **kwargs):
         super(GuitarScreen, self).__init__(**kwargs)
 
@@ -187,15 +172,14 @@ class GuitarScreen(Screen):
         s.connect(('localhost', 9000))
         self.ids.chatroom.text = "You are connected to the chat! \n"
         threading.Thread(target=self.handle_messages).start()
+        threading.Thread(target=self.receive_audio).start()
 
     def send_message(self, message_to_send):
         try:
             temp = message_to_send.split(" ")
             username = temp[0]
             msg_without_username = temp[1:]
-            print(msg_without_username)
             message_to_send_text = " ".join(msg_without_username)
-            print(message_to_send_text)
             user_and_message = [username, message_to_send_text]
 
             total_data = pickle.dumps(user_and_message)
@@ -205,6 +189,36 @@ class GuitarScreen(Screen):
         except Exception as e:
             print("Error sending: ", e)
 
+    def handle_messages(self):
+        while True:
+            try:
+                data = s.recv(1024)
+                data_list = pickle.loads(data)
+                self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
+            except Exception as e:
+                print(e)
+
+    def send_note(self, note):
+        notes = {"C": "Guitar_Sounds/C.wav", "C#": "Guitar_Sounds/C#.wav", "C+": "Guitar_Sounds/C+.wav",
+                 "D": "Guitar_Sounds/D.wav", "D#": "Guitar_Sounds/D#.wav",
+                 "E": "Guitar_Sounds/E.wav", "F": "Guitar_Sounds/F.wav", "F#": "Guitar_Sounds/F#.wav",
+                 "G": "Guitar_Sounds/G.wav", "G#": "Guitar_Sounds/G#.wav",
+                 "A": "Guitar_Sounds/A.wav", "A#": "Guitar_Sounds/A#.wav",
+                 "B": "Guitar_Sounds/B.wav", "B#": "Guitar_Sounds/B#.wav"}
+
+        path = notes[note]
+        sound = SoundLoader.load(path)
+        sound.play()
+        u.sendto(path.encode('utf-8'), ('localhost', 9001))
+
+    def receive_audio(self):
+        while True:
+            data, addr = u.recvfrom(1024)
+            data = data.decode("utf-8")
+            print("Received audio: " + data)
+            sound = SoundLoader.load(data)
+            time.sleep(0.2)
+            sound.play()
 
     def handle_messages(self):
         while True:

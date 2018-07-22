@@ -198,7 +198,8 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome " + root.manager.username + "!"
+                text: "Welcome " + root.manager.username + "!" + "You are a piano player."
+                multiline: True
                 size_hint: (0.2, None)
                 height: 20
 
@@ -377,7 +378,6 @@ ScreenManagement:
             padding: 10
             spacing: 5
 
-
             Label:
                 text: "Jam Sesh"
                 font_size: 36
@@ -385,25 +385,127 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome " + root.manager.username + "!"
+                text: "Welcome " + root.manager.username + "! \nYou are a bass player."
+                multiline: True
                 size_hint: (0.2, None)
                 height: 20
 
-            AsyncImage:
-                id: piano
-                source: 'https://cdn.pixabay.com/photo/2018/01/05/01/52/piano-3061964_960_720.jpg'
+            GridLayout:
+                id: bass_layout
+                cols: 13
+                rows: 2
 
-            AsyncImage:
-                id: guitar
-                source: 'http://images.all-free-download.com/images/graphiclarge/acoustic_guitar_184808.jpg'
+                Button:
+                    background_color: 0, 0, 0, 0
 
-            AsyncImage:
-                id: bass
-                source: 'https://medias.audiofanzine.com/images/normal/epiphone-les-paul-special-bass-751621.jpg'
+                Button:
+                    text: "C#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("C#")
 
-            AsyncImage:
-                id: drums
-                source: 'http://images.clipartpanda.com/drum-clip-art-drum-clip-art-6.gif'
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "D#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("D#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "F#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("F#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "G#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("G#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "A#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("A#")
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "C"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('C')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "D"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('D')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "E"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('E')
+
+                Button:
+                    text: "F"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('F')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "G"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('G')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "A"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('A')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "B"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('B')
+
+                Button:
+                    text: "C"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note("C+")
+
 
         GridLayout:
             id: chatroom_layout
@@ -463,7 +565,6 @@ ScreenManagement:
             padding: 10
             spacing: 5
 
-
             Label:
                 text: "Jam Sesh"
                 font_size: 36
@@ -471,25 +572,127 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome " + root.manager.username + "!"
+                text: "Welcome " + root.manager.username + "! \nYou are a bass player."
+                multiline: True
                 size_hint: (0.2, None)
                 height: 20
 
-            AsyncImage:
-                id: piano
-                source: 'https://cdn.pixabay.com/photo/2018/01/05/01/52/piano-3061964_960_720.jpg'
+            GridLayout:
+                id: guitar_layout
+                cols: 13
+                rows: 2
 
-            AsyncImage:
-                id: guitar
-                source: 'http://images.all-free-download.com/images/graphiclarge/acoustic_guitar_184808.jpg'
+                Button:
+                    background_color: 0, 0, 0, 0
 
-            AsyncImage:
-                id: bass
-                source: 'https://medias.audiofanzine.com/images/normal/epiphone-les-paul-special-bass-751621.jpg'
+                Button:
+                    text: "C#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("C#")
 
-            AsyncImage:
-                id: drums
-                source: 'http://images.clipartpanda.com/drum-clip-art-drum-clip-art-6.gif'
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "D#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("D#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "F#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("F#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "G#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("G#")
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "A#"
+                    background_color: 0, 0, 0, 1
+                    on_press: root.send_note("A#")
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "C"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('C')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "D"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('D')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "E"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('E')
+
+                Button:
+                    text: "F"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('F')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "G"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('G')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "A"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('A')
+
+                Button:
+                    background_color: 0, 0, 0, 0
+
+                Button:
+                    text: "B"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note('B')
+
+                Button:
+                    text: "C"
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_note("C+")
+
 
         GridLayout:
             id: chatroom_layout
