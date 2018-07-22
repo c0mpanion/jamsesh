@@ -68,12 +68,12 @@ def accept_audio(udp):
             data, addr = udp.recvfrom(1024)
             print(udp_connections)
             if addr not in udp_connections:
-                print(str(addr) + " has connected through UDP!")
+                print(str(addr) + " has connected through UDP!" + "\n")
                 lock.acquire()
                 udp_connections.append(addr)
                 lock.release()
-                print("Current UDP connections: " + str(udp_connections))
-            print("Received audio from: " + str(addr))
+                print("Current UDP connections: " + str(udp_connections) + "\n")
+            print("Received audio from: " + str(addr) + "\n")
             for address in udp_connections:
                 if addr != address:
                     udp.sendto(data, address)
