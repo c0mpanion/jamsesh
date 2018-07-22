@@ -8,6 +8,10 @@ starts a send message thread
 """
 global instruments
 instruments = socket(AF_INET, SOCK_DGRAM)
+global udp_connections
+udp_connections = []
+global lock
+lock = threading.Lock()
 
 def accept_client():
     # Infinite thread, always accepting clients (up to 10)
@@ -57,17 +61,28 @@ def send_messages(client_socket, address):
     sockets.remove((client_socket, address))
 
 
-def accept_audio(udp, sockets):
+def accept_audio(udp):
     while True:
-        data, addr = udp.recvfrom(1024)
-        if data:
-            for (client, address) in sockets:
+        try:
+            udp.settimeout(120)
+            data, addr = udp.recvfrom(1024)
+            print(udp_connections)
+            if addr not in udp_connections:
+                print(str(addr) + " has connected through UDP!")
+                lock.acquire()
+                udp_connections.append(addr)
+                lock.release()
+                print("Current UDP connections: " + str(udp_connections))
+            print("Received audio from: " + str(addr))
+            for address in udp_connections:
                 if addr != address:
-                    try:
-                        udp.sendto(data, address)
-                    except Exception as e:
-                        print("Error sending: ", e)
-
+                    udp.sendto(data, address)
+                    print("Sent to: " + str(address))
+        except TimeoutError:
+            print(str(addr) + " timed out.")
+            lock.acquire()
+            udp_connections.remove(addr)
+            lock.release()
 
 """
 Create server socket, listen for 10 different clients, start accept client thread
@@ -91,6 +106,7 @@ if __name__ == '__main__':
     c_thread = threading.Thread(target=accept_client)
     c_thread.start()
 
-    inst_thread = threading.Thread(target=accept_audio, args=[instruments, sockets])
-    inst_thread.start()
+    c_thread = threading.Thread(target=accept_audio, args=[instruments])
+    c_thread.start()
+
 

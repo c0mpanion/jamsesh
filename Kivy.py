@@ -7,17 +7,15 @@ from kivy.properties import ObjectProperty
 import socket, threading
 import pickle
 from kivy.core.audio import SoundLoader
-import os
-
+import time
 
 
 kivy.require('1.10.0')
 global username
 global s
 global u
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 u = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 class UserInfoScreen1(Screen):
@@ -54,6 +52,8 @@ class PianoScreen(Screen):
         s.connect(('localhost', 9000))
         self.ids.chatroom.text = "You are connected to the chat! \n"
         threading.Thread(target=self.handle_messages).start()
+        threading.Thread(target=self.receive_audio).start()
+
 
     def send_message(self, message_to_send):
         try:
@@ -82,7 +82,6 @@ class PianoScreen(Screen):
                 print(e)
 
     def send_note(self, note):
-
         if note == 'C':
             path = "Piano_Sounds/C.wav"
             print("C was pressed")
@@ -137,6 +136,17 @@ class PianoScreen(Screen):
 
         sound = SoundLoader.load(path)
         sound.play()
+        u.sendto(path.encode('utf-8'), ('localhost', 9001))
+
+    def receive_audio(self):
+        while True:
+            data, addr = u.recvfrom(1024)
+            data = data.decode("utf-8")
+            print("Received audio: " + data)
+            sound = SoundLoader.load(data)
+            time.sleep(1)
+            sound.play()
+
 
 
 class BassScreen(Screen):
