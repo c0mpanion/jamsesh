@@ -60,9 +60,7 @@ class PianoScreen(Screen):
             temp = message_to_send.split(" ")
             username = temp[0]
             msg_without_username = temp[1:]
-            print(msg_without_username)
             message_to_send_text = " ".join(msg_without_username)
-            print(message_to_send_text)
             user_and_message = [username, message_to_send_text]
 
             total_data = pickle.dumps(user_and_message)
@@ -232,6 +230,10 @@ class MainScreenAudience(Screen):
         s.connect(('localhost', 9000))
         self.ids.chatroom.text = "You are connected to the chat! \n"
         threading.Thread(target=self.handle_messages).start()
+        path = "Misc/AudienceMember.wav"
+        path = path.encode("utf-8")
+        u.sendto(path, ("localhost", 9001))
+        threading.Thread(target=self.receive_audio).start()
 
     def send_message(self, message_to_send):
         try:
@@ -250,7 +252,6 @@ class MainScreenAudience(Screen):
         except Exception as e:
             print("Error sending: ", e)
 
-
     def handle_messages(self):
         while True:
             try:
@@ -259,6 +260,16 @@ class MainScreenAudience(Screen):
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
             except Exception as e:
                 print(e)
+
+    def receive_audio(self):
+        while True:
+            data, addr = u.recvfrom(1024)
+            data = data.decode("utf-8")
+            print("Received audio: " + data)
+            sound = SoundLoader.load(data)
+            time.sleep(1)
+            sound.play()
+
 
 class ScreenManagement(ScreenManager):
     username = StringProperty("")
