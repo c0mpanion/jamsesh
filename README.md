@@ -7,7 +7,7 @@ All players, including audience members and players, will connect to the server 
 
 The chat uses TCP because we want to ensure that chat messages are received in the correct order so that users can communicate efficiently. All players and audience members can use the chat room. Clients will send text messages in the format (username + " > " + message) in order to be able to maintain a list of users that are currently connected via TCP.
 
-# INSTALLATION
+# Installation
 
 Please follow the installation steps for your operating system by visiting:
 Windows: https://kivy.org/docs/installation/installation-windows.html
