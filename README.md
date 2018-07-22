@@ -19,3 +19,7 @@ If you are installing for Mac OS X, you may have errors with SoundLoader. This i
 brew install gst-plugins-base --with-libvorbis
 
 
+# Running Jam Sesh
+
+First, change directories to the folder where the Jam Sesh source code is contained. Then, run Server.py first. After your server starts, you can then run each instance of Kivy.py.
+
