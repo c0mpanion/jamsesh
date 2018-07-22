@@ -21,19 +21,19 @@ users = {}
 def accept_client():
     # Infinite thread, always accepting clients (up to 10)
     while True:
-        server_socket.settimeout(10)
         # Accept connections, save socket number and address to a list
         try:
             client_socket, address = server_socket.accept()
+            # Timeout for each client will be 5 minutes
+            client_socket.settimeout(300)
             sockets.append((client_socket, address))
             print(str(address) + " connected to the chatroom.")
             # Start thread that allows client to send messages
             thread_client = threading.Thread(target=send_messages, args=[client_socket, address])
             thread_client.start()
-        except socket_error:
-            print(str(address) + " has disconnected from the chat.")
-            client_socket.close()
-            sockets.remove((client_socket, address))
+
+        except Exception as exp:
+            print("Error: ", exp)
 
 """
 Sends message from client to all other clients in the chat EXCEPT for the client
@@ -49,10 +49,8 @@ def send_messages(client_socket, address):
         If we've received data from a client, check the client list and
         send to all clients in the list except for the one who sent it
         """
-        client_socket.settimeout(10)
-        content = client_socket.recv(1024)
-
         try:
+            content = client_socket.recv(1024)
             if not content:
                 break
             else:
@@ -67,17 +65,12 @@ def send_messages(client_socket, address):
                     username = str(content[0])
                     users[username] = address
                     print(username + " said '" + str(content[1]))
-
                     print("Current user list: " + str(users))
                 except socket_error:
                     users.pop(username)
-                    try:
-                        sockets.remove((client_socket, address))
-                    except ValueError:
-                        pass
-                    break
         except socket_error:
-            print(str(address) + " timed out.")
+            print(str(address) + " has disconnected from the chat.")
+            sockets.remove((client_socket, address))
             client_socket.close()
             break
 

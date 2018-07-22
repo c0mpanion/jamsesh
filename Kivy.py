@@ -8,6 +8,7 @@ import socket, threading
 import pickle
 from kivy.core.audio import SoundLoader
 import time
+from socket import error as socket_error
 
 
 kivy.require('1.10.0')
@@ -76,8 +77,11 @@ class PianoScreen(Screen):
                 data = s.recv(1024)
                 data_list = pickle.loads(data)
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
-            except Exception as e:
-                print(e)
+            except EOFError:
+                s.close()
+                self.ids.chatroom.text += ("\nYou were disconnected from the chatroom. Log in again.")
+                print("Disconnected from the chatroom.")
+                break
 
     def send_note(self, note):
         notes = {"C": "Piano_Sounds/C.wav", "C#": "Piano_Sounds/C#.wav", "C+": "Piano_Sounds/C+.wav",
@@ -137,8 +141,11 @@ class BassScreen(Screen):
                 data = s.recv(1024)
                 data_list = pickle.loads(data)
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
-            except Exception as e:
-                print(e)
+            except socket_error:
+                s.close()
+                self.ids.chatroom.text += ("You were disconnected from the chatroom. Log in again.")
+                print("Disconnected from the chatroom.")
+                break
 
     def send_note(self, note):
         notes={"C": "Bass_Sounds/C.wav", "C#": "Bass_Sounds/C#.wav", "C+": "Bass_Sounds/C+.wav",
@@ -185,9 +192,9 @@ class GuitarScreen(Screen):
             total_data = pickle.dumps(user_and_message)
             s.sendto(total_data, ('localhost', 9000))
             self.ids.chatroom.text += '\n' + username + " > " + message_to_send_text
-
         except Exception as e:
             print("Error sending: ", e)
+
 
     def handle_messages(self):
         while True:
@@ -195,8 +202,11 @@ class GuitarScreen(Screen):
                 data = s.recv(1024)
                 data_list = pickle.loads(data)
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
-            except Exception as e:
-                print(e)
+            except socket_error:
+                s.close()
+                self.ids.chatroom.text += "You were disconnected from the chatroom. Log in again."
+                print("Disconnected from the chatroom.")
+                break
 
     def send_note(self, note):
         notes = {"C": "Guitar_Sounds/C.wav", "C#": "Guitar_Sounds/C#.wav", "C+": "Guitar_Sounds/C+.wav",
@@ -226,8 +236,11 @@ class GuitarScreen(Screen):
                 data = s.recv(1024)
                 data_list = pickle.loads(data)
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
-            except Exception as e:
-                print(e)
+            except socket_error:
+                s.close()
+                self.ids.chatroom.text += ("You were disconnected from the chatroom. Log in again.")
+                print("Disconnected from the chatroom.")
+                break
 
     def send_audio(self, note):
         pass
@@ -272,8 +285,11 @@ class MainScreenAudience(Screen):
                 data = s.recv(1024)
                 data_list = pickle.loads(data)
                 self.ids.chatroom.text += str('\n' + data_list[0]) + ' > ' + str(data_list[1])
-            except Exception as e:
-                print(e)
+            except socket_error:
+                s.close()
+                self.ids.chatroom.text += ("You were disconnected from the chatroom. Log in again.")
+                print ("Disconnected from the chatroom.")
+                break
 
     def receive_audio(self):
         while True:
