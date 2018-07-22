@@ -113,7 +113,7 @@ ScreenManagement:
             cols: 1
             rows: 3
             padding: 10
-            spacing: 5
+            spacing: 20
 
 
             Label:
@@ -160,14 +160,27 @@ ScreenManagement:
                             pos: self.pos
                             size: self.size
 
-            TextInput:
-                id: msg_input
-                hint_text: "Enter message here:"
-                size_hint: (0.5, None)
-                height: 100
-                font_size: 16
-                multiline: False
-                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
+            GridLayout:
+                id: input_and_button
+                cols: 2
+                rows: 1
+                padding: 10
+                spacing: 5
+
+                TextInput:
+                    id: msg_input
+                    hint_text: "Enter message here:"
+                    size_hint: (0.5, .5)
+                    height: 100
+                    font_size: 16
+                    multiline: True
+                    on_text_validate:
+                Button:
+                    text: "Send"
+                    size_hint: (0.5, 0)
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
 
 
 <PianoScreen>:
@@ -186,10 +199,10 @@ ScreenManagement:
 
         GridLayout:
             id: layout
-            cols: 2
-            rows: 3
+            cols: 1
+            rows: 4
             padding: 10
-            spacing: 5
+            spacing: 20
 
             Label:
                 text: "Jam Sesh"
@@ -198,7 +211,7 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome " + root.manager.username + "!" + "You are a piano player."
+                text: "Welcome " + root.manager.username + "!\nYou are a piano player."
                 multiline: True
                 size_hint: (0.2, None)
                 height: 20
@@ -347,15 +360,27 @@ ScreenManagement:
                         Rectangle:
                             pos: self.pos
                             size: self.size
+            GridLayout:
+                id: input_and_button
+                cols: 2
+                rows: 1
+                padding: 10
+                spacing: 5
 
-            TextInput:
-                id: msg_input
-                hint_text: "Enter message here:"
-                size_hint: (0.5, None)
-                height: 100
-                font_size: 16
-                multiline: False
-                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
+                TextInput:
+                    id: msg_input
+                    hint_text: "Enter message here:"
+                    size_hint: (0.5, .5)
+                    height: 100
+                    font_size: 16
+                    multiline: True
+                    on_text_validate:
+                Button:
+                    text: "Send"
+                    size_hint: (0.5, 0)
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
 
 <BassScreen>:
     name: "BassScreen"
@@ -373,10 +398,10 @@ ScreenManagement:
 
         GridLayout:
             id: layout
-            cols: 2
-            rows: 3
+            cols: 1
+            rows: 4
             padding: 10
-            spacing: 5
+            spacing: 20
 
             Label:
                 text: "Jam Sesh"
@@ -534,15 +559,27 @@ ScreenManagement:
                         Rectangle:
                             pos: self.pos
                             size: self.size
+            GridLayout:
+                id: input_and_button
+                cols: 2
+                rows: 1
+                padding: 10
+                spacing: 5
 
-            TextInput:
-                id: msg_input
-                hint_text: "Enter message here:"
-                size_hint: (0.5, None)
-                height: 100
-                font_size: 16
-                multiline: False
-                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
+                TextInput:
+                    id: msg_input
+                    hint_text: "Enter message here:"
+                    size_hint: (0.5, .5)
+                    height: 100
+                    font_size: 16
+                    multiline: True
+                    on_text_validate:
+                Button:
+                    text: "Send"
+                    size_hint: (0.5, 0)
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
 
 <GuitarScreen>:
     name: "GuitarScreen"
@@ -560,10 +597,10 @@ ScreenManagement:
 
         GridLayout:
             id: layout
-            cols: 2
-            rows: 3
+            cols: 1
+            rows: 4
             padding: 10
-            spacing: 5
+            spacing: 20
 
             Label:
                 text: "Jam Sesh"
@@ -572,7 +609,7 @@ ScreenManagement:
                 height: 20
 
             Label:
-                text: "Welcome " + root.manager.username + "! \nYou are a bass player."
+                text: "Welcome " + root.manager.username + "! \nYou are a guitar player."
                 multiline: True
                 size_hint: (0.2, None)
                 height: 20
@@ -711,8 +748,6 @@ ScreenManagement:
                     valight: 'top'
                     text_size: self.width, None
 
-
-
                     multiline: True
                     color: 0, 0, 0, 1
                     canvas.before:
@@ -721,12 +756,24 @@ ScreenManagement:
                         Rectangle:
                             pos: self.pos
                             size: self.size
+            GridLayout:
+                id: input_and_button
+                cols: 2
+                rows: 1
+                padding: 10
+                spacing: 5
 
-            TextInput:
-                id: msg_input
-                hint_text: "Enter message here:"
-                size_hint: (0.5, None)
-                height: 100
-                font_size: 16
-                multiline: False
-                on_text_validate: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";
+                TextInput:
+                    id: msg_input
+                    hint_text: "Enter message here:"
+                    size_hint: (0.5, .5)
+                    height: 100
+                    font_size: 16
+                    multiline: True
+                    on_text_validate:
+                Button:
+                    text: "Send"
+                    size_hint: (0.5, 0)
+                    color: 0, 0, 0, 1
+                    background_color: (255, 255, 255, 1)
+                    on_press: root.send_message(root.manager.username + " " + msg_input.text); msg_input.text = "";

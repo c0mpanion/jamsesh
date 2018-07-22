@@ -102,7 +102,7 @@ class PianoScreen(Screen):
             data = data.decode("utf-8")
             print("Received audio: " + data)
             sound = SoundLoader.load(data)
-            time.sleep(0.2)
+            time.sleep(1)
             sound.play()
 
 
@@ -117,6 +117,7 @@ class BassScreen(Screen):
         s.connect(('localhost', 9000))
         self.ids.chatroom.text = "You are connected to the chat! \n"
         threading.Thread(target=self.handle_messages).start()
+        threading.Thread(target=self.receive_audio).start()
 
     def send_message(self, message_to_send):
         try:
@@ -166,7 +167,7 @@ class BassScreen(Screen):
             data = data.decode("utf-8")
             print("Received audio: " + data)
             sound = SoundLoader.load(data)
-            time.sleep(0.2)
+            time.sleep(0.3)
             sound.play()
 
 class GuitarScreen(Screen):
